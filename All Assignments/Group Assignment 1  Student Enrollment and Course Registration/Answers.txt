@@ -1,0 +1,66 @@
+1. Data Structures Design:
+
+HashMap for Student Information:
+
+In a Java HashMap, student information can be stored with the student's unique identifier (studentID) as the key and a corresponding Student object as the value.
+Example: { "12345" -> Student("12345", "John Doe", ["CSCI101", "MATH202"]) }
+Here, "12345" is the student's ID, and "John Doe" is the student's name. The list ["CSCI101", "MATH202"] represents the courses the student is enrolled in.
+AVL Tree for Course Information:
+
+An AVL Tree is a self-balancing binary search tree. Each node in the AVL Tree represents a course with the course code as the key and a corresponding Course object as the value.
+
+2. Enrollment Process:
+
+To enroll a student in a course:
+Input is the student's ID (studentID) and the course code (courseCode).
+The system checks if the student exists in the HashMap of students using their studentID.
+The system checks if the course exists in the AVL Tree of courses using the courseCode.
+If both checks pass, the student's ID is added to the list of enrolled students in the corresponding course, and the course code is added to the list of enrolled courses in the student's object.
+If the student is already enrolled in the course, an error message is displayed.
+
+3. Registration Process:
+
+Adding a New Course:
+
+Input includes the course code and name.
+The system checks if the course code already exists in the AVL Tree. If not, it creates a new Course object and inserts it into the AVL Tree.
+Deregistering (Dropping) a Course:
+
+Input includes the student's ID and the course code.
+The system checks if the student exists in the HashMap.
+If the student is found, the system checks if the course code exists in the student's list of enrolled courses.
+If the course is found, the system removes the student's ID from the course's list of enrolled students and removes the course code from the student's list of enrolled courses.
+
+4. Generating Rosters:
+
+To generate a roster for a specific course (given a course code):
+The system searches the AVL Tree of courses to find the course with the matching course code.
+Once the course is found, it retrieves the list of student IDs who are enrolled in that course.
+The system then fetches student details for each enrolled student using their IDs from the HashMap of students.
+The final roster includes the names and IDs of enrolled students in that course.
+5. Student Schedules:
+
+To allow students to view their schedules:
+The student is prompted to enter their unique student ID.
+The system retrieves the student's details, including the list of course codes they are enrolled in.
+For each course code in the list, the system looks up the course name using the AVL Tree and presents the student's schedule with course names and codes.
+6. Conflict Resolution:
+
+To prevent schedule conflicts:
+The system maintains a set of course codes for each student, representing the courses they are enrolled in.
+When a student tries to enroll in a new course, the system checks if any of the course codes in the new course's schedule (e.g., meeting times) overlap with the course codes already in the student's set.
+If there is an overlap, the system prevents the student from enrolling in the new course and displays a conflict message.
+This is done by comparing the sets of course codes, and with proper data structures like HashSet, this check can be optimized for efficiency.
+
+7. Efficiency Considerations:
+
+Enrolling a Student:
+
+Checking if a student exists in the HashMap is efficient with an average time complexity of O(1) due to the hash table.
+Searching for a course in the AVL Tree has a time complexity of O(log N) for a balanced tree, which is still efficient for most cases.
+Generating Rosters:
+
+Retrieving a roster for a course involves searching the AVL Tree (O(log N)) and then fetching student details. This operation is also efficient.
+Preventing Conflicts:
+
+Checking for schedule conflicts involves comparing sets of course codes, which, in practice, is efficient with a time complexity of O(N), where N is the number of courses in a student's schedule. However, with HashSet, set operations are typically O(1), optimizing this process for efficiency.

@@ -1,0 +1,103 @@
+import os
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.child = None
+        self.next = None
+
+    def add_next(self, fp):
+        if self.next is None:
+            self.next = Node(fp)
+            current = self.next
+        else:
+            current = self.next.add_next(fp)
+        return current
+
+    def add_child(self, fp):
+        if self.child is None:
+            self.child = Node(fp)
+            current = self.child
+        else:
+            current = self.child.add_next(fp)
+        return current
+
+    def print_tree(self, lvl):
+        global prev
+        print(' ' * lvl * lvl + '|_', self.value)
+        while self.child:
+            lvl = lvl + 1
+            self = self.child
+            prev = self
+            self.print_tree(lvl)
+        while self.next:
+            self = self.next
+            self.print_tree(lvl)
+        self = prev
+
+def look_directory(path, root):
+    try:
+        for file_path in os.listdir(path):
+            tmp = os.path.join(path, file_path)
+            if os.path.isfile(tmp):
+                root.add_child(file_path)
+            if os.path.isdir(tmp):
+                head = root.add_child(file_path)
+                look_directory(tmp, head)
+    except FileNotFoundError:
+        print('No such file or directory')
+
+def main():
+    try:
+        path = input("Enter the directory path: ")
+        if not os.path.exists(path):
+            raise ValueError("Invalid directory path")
+
+        root_name = os.path.basename(os.path.abspath(path))
+        root = Node(root_name)
+        look_directory(path, root)
+        root.print_tree(0)
+    except ValueError as e:
+        print(f"Error: {e}")
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+#Output
+Enter the directory path:
+D:\MS
+├───10th and 12th marksheets
+├───admit
+├───BE results
+│   ├───Compressed
+│   └───Passing cert
+├───Consent forms
+├───GRE
+│   └───PDF 1.4 standards
+├───HDFC Credila
+│   ├───Neil
+│   └───Sheetal
+├───LOR
+│   ├───Final
+│   │   └───PDFs
+│   └───Scanned
+├───Passport
+├───Resume
+│   ├───Applied
+│   ├───Final
+│   └───Internship
+│       └───Cover Letter
+├───SOP
+│   ├───Canada uni
+│   ├───Drafts
+│   ├───Final
+│   └───USA uni
+├───Toefl
+│   └───pdf 1.4
+├───Transcripts
+│   └───pdf 1.4 standards transcript
+└───VISA
